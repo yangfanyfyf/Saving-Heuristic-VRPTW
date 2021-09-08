@@ -12,9 +12,9 @@ width = time_window2 - time_window1; % width of time window
 service_time = TimeTrans(test_data(2:end,6)+8); 
 h = pdist(vertexs);
 dists = squareform(h);
+destination = test_data(2:end, 7);
 
 % calculate the saving dist
-saving_array = SavingDist(dists);
-routes = CWPSaving(dists, saving_array, time_window1, time_window2, depot_time_window2, service_time);
-
+saving_matrix = SavingDist(dists);
+routes = SavingHeuristic(dists, saving_matrix, time_window1, time_window2, depot_time_window2, service_time, destination)
 TD = TotalDistance(dists, routes)
