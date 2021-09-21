@@ -1,4 +1,4 @@
-function route = SavingHeuristic(dists, saving_matrix, time_window1, time_window2, depot_time_window2, service_time)
+function route = SavingHeuristic(dists, saving_matrix, time_window1, time_window2, depot_time_window2, service_time, destination)
     %parallel saving algorithm
     [row,~] = max(size(dists));
     if row > 2
@@ -19,6 +19,9 @@ function route = SavingHeuristic(dists, saving_matrix, time_window1, time_window
             % 2 nodes in a line 
             nodeA = saving_matrix(i,1)-1;
             nodeB = saving_matrix(i,2)-1;
+            if destination(nodeA) == -2 && destination(nodeB) == -2
+                continue;
+            end
             % nodes in route?
             [rowA,colA] = find(route==nodeA);
             [rowB,colB] = find(route==nodeB);
@@ -34,12 +37,14 @@ function route = SavingHeuristic(dists, saving_matrix, time_window1, time_window
                     thisRow = midIdx(1);
                     %%%%
                     temp_route = route(thisRow, :);
-                    if time_window1(nodeA) < time_window1(nodeB)
+                    if time_window1(nodeA) <= time_window1(nodeB)
                         temp_route(1,1) = nodeA;
                         temp_route(1,2) = nodeB;
+                        
                     else
                         temp_route(1,1) = nodeB;
                         temp_route(1,2) = nodeA;
+                        
                     end
                     flag = JudgeRoute(temp_route,time_window1, time_window2, depot_time_window2, service_time,dists);
                     % capacity not violated
