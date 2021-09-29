@@ -35,7 +35,6 @@ function route = tempSaving(dists, saving_matrix, tw1, tw2, start_tw1, start_tw2
                 temp_route(1,2) = node_B;
                 flag = JudgeRoute(temp_route, tw1, tw2, start_tw2, st, dists);
                 if flag == 1
-                    disp("situation 1")
                     route(empty_row, :) = temp_route;
                     visited_qty = visited_qty + 2;
                     route_qty = route_qty + 1;
@@ -98,18 +97,20 @@ function route = tempSaving(dists, saving_matrix, tw1, tw2, start_tw1, start_tw2
         end
         
     end
+    % clean 0 line
+    temp_idx = find(route(:,1)==0);
+    route(temp_idx, :) = [];
     % 遍历了所有的点，将没有被遍历过的点单独算作一行
-    
     if visited_qty < task_qty
         unvisited_tasks = find(visited_tasks == 0);
         unvisited_qty = size(unvisited_tasks,2);
         for j = 1 : unvisited_qty
-            route(route_qty + j, 1) = unvisited_tasks(j);
+            route(route_qty + j, 1) = unvisited_tasks(j)
         end
     end
-    % clean 0 line
-    temp_idx = find(route(:,1)==0);
-    route(temp_idx, :) = [];
+%     % clean 0 line
+%     temp_idx = find(route(:,1)==0);
+%     route(temp_idx, :) = [];
     
     % clean 0 column
     [row,col] = size(route);

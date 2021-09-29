@@ -1,5 +1,6 @@
 clc;clear; close all;
-test_data = importdata('my_test_data_10.xlsx');
+tic
+test_data = importdata('new_test_data.xlsx');
 depot_time_window1 = TimeTrans(test_data(1,4)); % time window of depot
 depot_time_window2 = TimeTrans(test_data(1,5));
 vertexs = test_data(:,2:3); 
@@ -24,3 +25,4 @@ end
 saving_matrix = SavingDist(dists,time_window1,time_window2, destination);
 routes = tempSaving(dists, saving_matrix, time_window1, time_window2, depot_time_window1, depot_time_window2, service_time, destination)
 TD = TotalDistance(dists, routes)
+toc
